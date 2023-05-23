@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+</head>
+<body>
+
+    <!-- Верхня часть -->
+    {% block mainmenu %}
+    <table class="table-page" border=0 cellpadding="0" cellspacing="0">
+        <tr>
+            {% for m in menu %}
+            <td valign=top>
+                <ul id="mainmenu" class="mainmenu">         
+                    <li><a href="{% url m.url_name %}">{{m.title}}</a></li>
+                </ul>
+            </td>
+        {% endfor %}
+        {% if not request.user.is_authenticated %}
+            <td>
+                <ul id="mainmenu" class="mainmenu">
+                <li><a href="{% url 'login' %}">Войти</a> | <a href="{% url 'register' %}">Регистрация</a></li>
+                </ul>
+            </td>
+        {% else %}
+            <td>
+                <ul id="mainmenu" class="mainmenu">
+                <li><a href="{% url 'logout' %}">Выйти</a></li>
+                </ul>
+            </td>
+        {% endif %}    
+        </tr>
+    {% endblock mainmenu %}
+
+    <!-- Серединка  -->   
+    <tr><td class="content">
+        {% block content %}
+           <h1>{{ content }}</h1> 
+        {% endblock %}
+        </td>
+    </tr>
+
+    <!-- Футер -->
+    <tr><td valign=top>
+        <div id="footer">
+            <p>&copy; 2023 Частичное или полное копирование информации с данного сайта для распространения на других ресурсах, в том числе и бумажных, строго запрещено.</p>
+        </div>
+    </td></tr></table>
+<!-- Конец футера и страницы -->
+</html>
